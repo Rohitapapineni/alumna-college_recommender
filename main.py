@@ -666,6 +666,8 @@ from datetime import datetime
 from collections import defaultdict
 import uuid
 
+from fastapi.middleware.cors import CORSMiddleware
+
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 import uvicorn
@@ -696,7 +698,14 @@ app = FastAPI(
     description="Friend-like academic chatbot that's conversational and context-aware with web search",
     version="1.3.0"
 )
-
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, specify your frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # Request/Response models
 class ChatRequest(BaseModel):
     message: str
